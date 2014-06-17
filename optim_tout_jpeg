@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+
+
+`zenity --question --text 'Recompresser toutes les images sélectionnées ?'`
+exit if $?.exitstatus == 1
+
+args = ARGV.map{|i| "\"#{i}\""}.join(' ')
+print "#{File.dirname(__FILE__)}/optim_tout_jpeg-sous_process #{args} "
+`#{File.dirname(__FILE__)}/optim_tout_jpeg-sous_process #{args} | zenity --progress --title="Recompression images" --auto-close --auto-kill`

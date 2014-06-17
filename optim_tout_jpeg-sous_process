@@ -1,0 +1,58 @@
+#!/usr/bin/ruby
+require "rubygems"
+require "docopt"
+dest_folder = 'recompress'
+
+doc = "Usage: #{__FILE__} [--height HEIGHT] FILENAME..."
+
+begin
+  options = Docopt::docopt(doc)
+rescue Docopt::Exit => e
+  puts e.message
+  exit -1
+end
+
+# checks that height is a number
+if options['HEIGHT']
+  height = options['HEIGHT']
+  begin
+    height = Integer(height)
+  rescue ArgumentError => e
+    puts "Error : height must be a number. Received '#{height}'"
+    exit -1
+  end
+else
+  height = nil
+end
+
+puts "height: #{height}"
+
+filenames = options['FILENAME']
+nb_files = filenames.size
+source_dir = File.dirname(filenames.first)
+
+# Create dest folder
+Dir.chdir(source_dir)
+begin
+  Dir.mkdir(dest_folder)
+rescue
+  Errno::EEXIST
+end
+
+filenames.each_with_index do |filename, i|
+  basename = File.basename(filename)
+  puts ((i / nb_files.to_f) * 100).to_i
+  puts "# " + basename
+  $stdout.flush
+  if height
+    puts "HEIGHT"
+    # Resize file
+    puts "convert -resize x#{height} #{basename} #{dest_folder}/#{basename}"
+    `convert -resize x#{height} "#{basename}" "#{dest_folder}/#{basename}"`
+    basename = "#{dest_folder}/#{basename}"  # set filename to recompress rezised photo with jpegoptim
+  end
+  # jpeg optim
+  `jpegoptim --max=90 --dest="#{dest_folder}" "#{basename}" -o`
+end
+
+puts

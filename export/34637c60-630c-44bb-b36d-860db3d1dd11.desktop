@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Action
+ToolbarLabel[fr_FR]=Recompress 800px
+ToolbarLabel[fr]=Recompress 800px
+TargetLocation=true
+Name[fr_FR]=Recompress 800px
+Name[fr]=Recompress 800px
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Schemes=file;
+MimeTypes=image/jpeg;
+Exec=/home/bruno/bin/optim_tout_jpeg --height 800 %F
+Name[fr_FR]=Profil par défaut
+Name[fr]=Profil par défaut
