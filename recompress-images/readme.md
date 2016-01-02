@@ -1,8 +1,11 @@
 # Recompress images nautilus action
 
-Quickly resize multiple jpeg images to a subfolder
+Quickly resize multiple jpeg images to a subfolder.
+User see a progress bar of compression process.
 
 ![](screenshot.jpg)
+
+![](screenshot2.png)
 
 ## Installation
 
